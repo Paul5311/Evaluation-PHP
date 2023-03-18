@@ -7,8 +7,8 @@ abstract class AbstractRepository
     public function __construct()
     {
         $dsn = 'mysql:host=localhost;dbname=tp_blog';
-        $user = 'mflasquin2';
-        $password = 'mflasquin2';
+        $user = 'root';
+        $password = '';
 
         try {
             $this->db = new PDO($dsn, $user, $password);

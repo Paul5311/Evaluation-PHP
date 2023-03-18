@@ -44,16 +44,25 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
     <div class="content">
         <div class="article-container">
             <a class="article-back" href="/">Retour à la liste des articles</a>
-            <div class="article-cover-img" style="background-image:url(<?= $articleToShow->getImageFullPath() ?>)"></div>
+            <div class="article-cover-img"
+                 style="background-image:url(<?= $articleToShow->getImageFullPath() ?>)"></div>
             <h1 class="article-title"><?= $articleToShow->getTitle() ?></h1>
             <span>Rédigé par : <?= $auteur->getNom() . ' ' . $auteur->getPrenom() ?></span>
             <div class="separator"></div>
             <p class="article-content"><?= $articleToShow->getContent() ?></p>
-            <?php if($user !== false && ($auteur->getId() === $user->getId())): ?>
-            <div class="action">
-                <a class="btn btn-secondary" href="/delete-article.php?id=<?= $articleId ?>">Supprimer</a>
-                <a class="btn btn-primary" href="/form-article.php?id=<?= $articleId ?>">Editer l'article</a>
-            </div>
+            <?php if ($user !== false && ($auteur->getId() === $user->getId())): ?>
+                <div class="action">
+                    <a class="btn btn-secondary" href="/delete-article.php?id=<?= $articleId ?>">Supprimer</a>
+                    <a class="btn btn-primary" href="/form-article.php?id=<?= $articleId ?>">Editer l'article</a>
+                </div>
+                <div class="form-control">
+                    <label for="comment">Commentaire</label>
+                    <textarea name="comment" id="comment"></textarea>
+                </div>
+                <div class="form-actions">
+                    <a href="/" class="btn btn-secondary" type="button">Annuler</a>
+                    <button class="btn btn-primary" type="submit">Sauvegarder</button>
+                </div>
             <?php endif; ?>
         </div>
     </div>
