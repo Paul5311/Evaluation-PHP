@@ -1,11 +1,11 @@
 <?php
 
-class Commentaire
+class Comment
 {
     private int $id;
 
 
-    private string $commentaire = '';
+    private string $comment = '';
 
     private int $userId;
 
@@ -28,17 +28,17 @@ class Commentaire
     /**
      * @return string
      */
-    public function getCommentaire(): string
+    public function getComment(): string
     {
-        return $this->commentaire;
+        return $this->comment;
     }
 
     /**
-     * @param string $commentaire
+     * @param string $comment
      */
-    public function setCommentaire(string $commentaire): void
+    public function setComment(string $comment): void
     {
-        $this->commentaire = $commentaire;
+        $this->comment = $comment;
     }
 
     /**

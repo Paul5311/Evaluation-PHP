@@ -50,7 +50,7 @@ if(!empty($_POST)) {
     <div class="content">
         <div class="block p-20 form-container">
             <h1>Connexion</h1>
-            <form action="#" , method="POST">
+            <form action="#"  method="POST">
                 <div class="form-control">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" value="<?= $email ?? '' ?>">

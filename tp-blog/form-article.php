@@ -100,7 +100,7 @@ if (!empty($_POST)) {
     <div class="content">
         <div class="block p-20 form-container">
             <h1>Écrire un article</h1>
-            <form action="#" , method="POST" enctype="multipart/form-data">
+            <form action="#"  method="POST" enctype="multipart/form-data">
                 <div class="form-control">
                     <label for="title">Titre</label>
                     <input type="text" name="title" id="title" value="<?= $article->getTitle() ?? '' ?>">

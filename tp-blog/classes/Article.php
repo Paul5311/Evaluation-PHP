@@ -14,14 +14,6 @@ class Article
 
     private int $userId;
 
-//    public function __construct($title, $image, $category, $content)
-//    {
-//        $this->title = $title;
-//        $this->image = $image;
-//        $this->category = $category;
-//        $this->content = $content;
-//    }
-
     /**
      * @return int
      */

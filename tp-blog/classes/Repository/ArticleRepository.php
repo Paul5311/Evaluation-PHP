@@ -52,6 +52,7 @@ class ArticleRepository extends AbstractRepository
         ]);
     }
 
+
     public function addArticle(Article $article, User $user)
     {
         $sql = "INSERT INTO article (title,image,category,content,userId)
