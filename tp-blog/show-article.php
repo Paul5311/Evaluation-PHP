@@ -4,31 +4,38 @@ require_once('classes/Article.php');
 require_once('classes/Repository/ArticleRepository.php');
 require_once('classes/User.php');
 require_once('classes/Repository/UserRepository.php');
-require_once('classes/Comment.php');
-require_once('classes/Repository/CommentRepository.php');
-
+require_once('classes/Commentary.php');
+require_once('classes/Repository/CommentaryRepository.php');
 
 $user = User::isLogged();
 
+if ($user === false) {
+    header('Location: login.php');
+}
+//On récupère l'id de l'article qu'on a dans l'url
+$articleId = $_GET['id'];
+$commentaryId = $_GET['id'];
+$commentary = new Commentary();
+$commentaryRepository = new CommentaryRepository();
+
 $articleRepository = new ArticleRepository();
+
 $userRepository = new UserRepository();
-$commentRepository = new CommentRepository();
-$comment = new Comment();
-$commentErreurs = [];
 
-const ERROR_COMMENT_REQUIRED = 'Veuillez renseigner ce champ';
-const ERROR_COMMENT_TO_SHORT = 'Le commentaire est trop court';
-
-
+if (isset($_POST['commentary'])) {
+    $commentary->setCommentary($_POST['commentary']);
+    if (!empty($commentary)) {
+        $commentaryRepository->addCommentary($commentary, $user);
+    }
+}
+$commentariesToShow = $commentaryRepository->getAllCommentary();
 
 //Si le paramètre id n'existe pas
 if (!isset($_GET['id'])) {
     header('Location: index.php');
 }
 
-//On récupère l'id de l'article qu'on a dans l'url
-$articleId = $_GET['id'];
-$commentId = $_GET['id'];
+
 //On va chercher dans la liste des articles, l'article qui correspond à l'id qu'on a dans l'url
 $articleToShow = $articleRepository->findArticle($articleId);
 
@@ -38,22 +45,7 @@ if ($articleToShow === false) {
 }
 
 $auteur = $userRepository->getById($articleToShow->getUserId());
-
-
-
-$comment->setComment(htmlentities($_POST['comment']));
-
-if (empty($comment->getComment())) {
-    $errors['title'] = ERROR_COMMENT_REQUIRED;
-} elseif (strlen($comment->getComment()) < 5) {
-    $errors['title'] = ERROR_COMMENT_TO_SHORT;
-}
-
-if (empty($commentErreurs)) {
-    if (!empty($_POST['comment'])) {
-        $commentRepository->AddComment($comment, $user);
-    }
-}
+$commentaryAuteur = $userRepository->getById($commentariesToShow->getUserId());
 ?>
 
 <!DOCTYPE html>
@@ -83,22 +75,23 @@ if (empty($commentErreurs)) {
                     <a class="btn btn-primary" href="/form-article.php?id=<?= $articleId ?>">Editer l'article</a>
                 </div>
             <?php endif; ?>
-            <form action="#" method="post">
-                <div class="form-control">
-                    <label for="comment">Commentaire</label>
-                    <input type="text" name="comment" id="comment"
-                           value=" <?= $comment->getComment() ?? ''?> ">
-
-                </div>
-                <div class="form-actions">
-                    <a href="/" class="btn btn-secondary" type="button">Annuler</a>
-                    <button class="btn btn-primary" type="submit">Ajouter un commentaire</button>
-                </div>
-                <div>
-<!--                    <p class="article-title">--><?php //= $commentaireToShow->findCommentaire() ?><!--</p>-->
-<!--                    <span>Commenté par : --><?php //= $auteur->getNom() . ' ' . $auteur->getPrenom() ?>
-                </div>
+            <h1>Commentaires</h1>
+            <form action="#" method="POST">
+                <textarea id="commentary" name="commentary">
+                </textarea>
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
+                <button class="btn btn-secondary" type="submit">Supprimer</button>
             </form>
+            <div>
+                <ul>
+                    <?php foreach ($commentariesToShow as $commentaryToShow): ?>
+                        <li>
+                            <?= $commentaryToShow['commentary'] ?>
+                            <button class="btn btn-secondary" type="submit">Supprimer</button>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
     </div>
     <?php require_once 'includes/footer.php' ?>

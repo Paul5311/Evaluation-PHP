@@ -8,6 +8,7 @@
     $userRepository = new UserRepository();
     $articleRepository = new ArticleRepository();
     $articles = $articleRepository->getArticles();
+
 ?>
 
 <!DOCTYPE html>
