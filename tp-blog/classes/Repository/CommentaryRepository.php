@@ -16,6 +16,7 @@ class CommentaryRepository extends AbstractRepository
             'commentary' => $commentary->getCommentary(),
             'userId' => $user->getId(),
 
+
         ]);
     }
 
@@ -31,7 +32,29 @@ class CommentaryRepository extends AbstractRepository
         return $statement->fetchAll();
     }
 
+    /**
+     * @param $commentaryId
+     * @return void
+     */
+    public function deleteCommentary($commentaryId): void
+    {
+        $sql = "DELETE FROM commentary WHERE id = :id";
+        $statement = $this->db->prepare($sql);
+        $statement->execute([
+            'id' => $commentaryId
+        ]);
+    }
 
+    public function findCommentary(int $id): Commentary|bool
+    {
+        $sql = "SELECT * FROM commentary WHERE id = :id";
+        $statement = $this->db->prepare($sql);
+        $statement->execute([
+            'id' => $id
+        ]);
+
+        return $statement->fetchObject(Commentary::class);
+    }
 
 
 }

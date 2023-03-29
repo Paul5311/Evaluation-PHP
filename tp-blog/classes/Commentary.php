@@ -1,13 +1,15 @@
 <?php
 
-
 class Commentary
 {
-
     private int $id;
     private string $commentary='';
 
     private int $userId;
+
+    private int $articleId;
+
+
 
     /**
      * @return int
@@ -55,6 +57,22 @@ class Commentary
     public function setUserId(int $userId): void
     {
         $this->userId = $userId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getArticleId(): int
+    {
+        return $this->articleId;
+    }
+
+    /**
+     * @param int $articleId
+     */
+    public function setArticleId(int $articleId): void
+    {
+        $this->articleId = $articleId;
     }
 
 

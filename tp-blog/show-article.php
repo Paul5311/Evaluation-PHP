@@ -14,30 +14,40 @@ if ($user === false) {
 }
 //On récupère l'id de l'article qu'on a dans l'url
 $articleId = $_GET['id'];
-$commentaryId = $_GET['id'];
 $commentary = new Commentary();
 $commentaryRepository = new CommentaryRepository();
-
 $articleRepository = new ArticleRepository();
-
 $userRepository = new UserRepository();
+$commentaryErrors = [];
+/*------------------------Ajout Commentaire--------------------*/
+const ERROR_COMMENT_REQUIRED = 'Veuillez renseigner ce champ';
 
-if (isset($_POST['commentary'])) {
-    $commentary->setCommentary($_POST['commentary']);
-    if (!empty($commentary)) {
+if (!empty($_POST)) {
+//    $commentary->setCommentary(htmlentities($_POST['commentary']));
+
+    if (empty($commentary->getCommentary())) {
+        $commentaryErrors['commentary'] = ERROR_COMMENT_REQUIRED;
+    }
+
+    if (empty($commentaryErrors)) {
+
         $commentaryRepository->addCommentary($commentary, $user);
     }
 }
-$commentariesToShow = $commentaryRepository->getAllCommentary();
+/*------------------------Suppression Commentaire--------------------*/
 
+$commentaryId = $_GET['id'];
+
+/*------------------------Montrer les Commentaires--------------------*/
+$commentariesToShow = $commentaryRepository->getAllCommentary();
 //Si le paramètre id n'existe pas
 if (!isset($_GET['id'])) {
     header('Location: index.php');
 }
 
-
 //On va chercher dans la liste des articles, l'article qui correspond à l'id qu'on a dans l'url
 $articleToShow = $articleRepository->findArticle($articleId);
+
 
 //Si aucun article ne correspond dans la liste
 if ($articleToShow === false) {
@@ -45,7 +55,7 @@ if ($articleToShow === false) {
 }
 
 $auteur = $userRepository->getById($articleToShow->getUserId());
-$commentaryAuteur = $userRepository->getById($commentariesToShow->getUserId());
+
 ?>
 
 <!DOCTYPE html>
@@ -77,20 +87,25 @@ $commentaryAuteur = $userRepository->getById($commentariesToShow->getUserId());
             <?php endif; ?>
             <h1>Commentaires</h1>
             <form action="#" method="POST">
-                <textarea id="commentary" name="commentary">
-                </textarea>
+                <label for="commentary"></label>
+                <textarea id="commentary" name="commentary" cols=" 150" rows="5"></textarea>
                 <button class="btn btn-primary" type="submit">Enregistrer</button>
-                <button class="btn btn-secondary" type="submit">Supprimer</button>
             </form>
             <div>
-                <ul>
-                    <?php foreach ($commentariesToShow as $commentaryToShow): ?>
-                        <li>
-                            <?= $commentaryToShow['commentary'] ?>
-                            <button class="btn btn-secondary" type="submit">Supprimer</button>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($commentariesToShow as $commentaryToShow): ?>
+                            <li>
+                                <label for=commentaryToShow"></label>
+                                <textarea name="commentaryToShow" id=commentaryToShow"
+                                          cols="150"
+                                          rows="5"><?= $commentaryToShow['commentary'] ?>
+                                </textarea>
+                                <div class="action">
+                                    <a class="btn btn-secondary" href="/delete-commentary.php?id=<?= $commentaryId ?>">Supprimer</a>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
             </div>
         </div>
     </div>
