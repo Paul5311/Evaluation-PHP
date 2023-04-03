@@ -9,10 +9,10 @@ $user = User::isLogged();
 $commentaryRepository = new CommentaryRepository();
 
 //Je récupère l'id de l'article à supprimer
-$commentaryId = $_GET['id'];
+$commentaryId = $_GET['idComment'];
 
 //Récupération de l'article et on vérifie si je suis bien l'auteur de l'article
-$commentary = $commentaryRepository->findCommentary($commentaryId);
+//$commentary = $commentaryRepository->findCommentary($commentaryId);
 
 //Suppression de l'article
 $commentaryRepository->deleteCommentary($commentaryId);
