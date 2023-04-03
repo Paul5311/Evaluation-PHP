@@ -35,11 +35,10 @@ if (!empty($_POST)) {
         $commentaryRepository->addCommentary($commentary, $user);
     }
 }
-/*------------------------Suppression Commentaire--------------------*/
-$commentaryId = $_GET['idComment'];
+
 
 /*------------------------Montrer les Commentaires--------------------*/
-$commentariesToShow = $commentaryRepository->getAllCommentary();
+$commentariesToShow = $commentaryRepository->getCommentaries();
 //Si le paramètre id n'existe pas
 if (!isset($_GET['id'])) {
     header('Location: index.php');
@@ -100,7 +99,7 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
                         <li>
                             <div class="action">
                                 <a class="btn btn-secondary"
-                                   href="/delete-commentary.php?idComment=<?= $commentaryId ?>">Supprimer</a>
+                                   href="/delete-commentary.php?idComment=<?= $commentaryToShow['id'] ?>">Supprimer</a>
                             </div>
                             <label for=commentaryToShow"></label>
                             <textarea name="commentaryToShow" id=commentaryToShow"

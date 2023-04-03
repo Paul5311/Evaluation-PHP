@@ -23,7 +23,7 @@ class CommentaryRepository extends AbstractRepository
     /**
      * @return Commentary[]
      */
-    public function getAllCommentary(): array
+    public function getCommentaries(): array
     {
         $sql = "SELECT * FROM commentary";
         $statement = $this->db->prepare($sql);
@@ -44,17 +44,5 @@ class CommentaryRepository extends AbstractRepository
             'id' => $commentaryId
         ]);
     }
-
-    public function findCommentary(int $id): Commentary|bool
-    {
-        $sql = "SELECT * FROM commentary WHERE id = :id";
-        $statement = $this->db->prepare($sql);
-        $statement->execute([
-            'id' => $id
-        ]);
-
-        return $statement->fetchObject(Commentary::class);
-    }
-
 
 }
